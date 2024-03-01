@@ -1,9 +1,8 @@
-** Subproject II - Policy
+# Subproject II - Policy
 
 The codes here are only available for members of Subproject II. They are not open source so you are not allowed to install them on servers other than in NCKU or even share them with other people who are not granted. If you need to discuss and communicate with external people, you must be approved by Prof. KC Shaing (our leader). Please follow the academic ethic.
 
-**  EFIT Equilibrium Fitting code
-------------------------------
+##  EFIT Equilibrium Fitting code
 
 EFIT is an equilibrium fitting code.  
 
