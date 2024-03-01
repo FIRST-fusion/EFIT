@@ -1,0 +1,2 @@
+/usr/bin/ar qc libptdatalib.a CMakeFiles/ptdatalib.dir/ptdata_dummy.F.o
+/usr/bin/ranlib libptdatalib.a

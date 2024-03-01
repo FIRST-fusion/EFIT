@@ -1,0 +1,2 @@
+/usr/bin/ar qc libmdspluslib.a CMakeFiles/mdspluslib.dir/mdsfdummy.f.o
+/usr/bin/ranlib libmdspluslib.a

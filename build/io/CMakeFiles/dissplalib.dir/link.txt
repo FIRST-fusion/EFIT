@@ -1,0 +1,2 @@
+/usr/bin/ar qc libdissplalib.a CMakeFiles/dissplalib.dir/disspla_dummy.F.o
+/usr/bin/ranlib libdissplalib.a

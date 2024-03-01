@@ -1,0 +1,13 @@
+ &SETUP
+ link_efit="/home/linshih/workspace/efit-main/build/test/DIIID/"
+ link_store=""
+ /
+ &OPTIN
+ mode=2
+ shot=186610
+ starttime=-1
+ deltatime=-1
+ steps=1
+ snapext="'none'"
+ inpfile='k186610.02400'
+ /

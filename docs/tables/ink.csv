@@ -1,0 +1,12 @@
+Variable, Default, Description
+BACKAVERAGE, .false.,
+CUPDOWN	,, to force F coil currents to be up-down symmetric. Defaulted to be -100000 for symmetrized solutions.
+GAIN, 0.22,
+GAINP, 0.75,
+ISETFB,0,
+IOFFR,-7,
+IOFFZ, 7,
+ISHIFTZ, 0,
+IDPLACE	, 0, turns off some of the ITEK plot file outputs (basically unused option)
+LRING, 0,
+SYMMETRIZE,.false.,

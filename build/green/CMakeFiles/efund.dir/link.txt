@@ -1,0 +1,1 @@
+/usr/bin/gfortran -fconvert=big-endian -fno-realloc-lhs -fno-second-underscore -fdefault-real-8 -fdefault-double-8  CMakeFiles/efund.dir/efund.f90.o -o efund  libgreen.a 

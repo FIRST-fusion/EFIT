@@ -1,0 +1,2 @@
+/usr/bin/ar qc libnetcdflib.a CMakeFiles/netcdflib.dir/netcdf_dummy.F.o
+/usr/bin/ranlib libnetcdflib.a

@@ -1,0 +1,71 @@
+#!/bin/bash
+OUTPUT_STORE_DIR=@CMAKE_CURRENT_SOURCE_DIR@/output
+
+if [ @EFIT_MODE@ = 5 ]; then
+  for label in @EFIT_LABEL@; do
+    if ! test -e k${label}; then
+      echo "File does not exist: ${prefix}${label}"
+      exit 1
+    fi
+  done
+  # Check the output of the run itself.  use petscdiff because it's an easily
+  # portable way of avoiding testing the numbers -- it's testing the text
+  if [ @ENABLE_PARALLEL@ = ON ]; then
+    @CMAKE_SOURCE_DIR@/bin/petscdiff -j -f 'grep -v table_di | grep -v /green | grep -v -e "^$" | grep -v EFIT | grep -v Git | grep -v Simulation | grep -v compiled | grep -v flags | grep -v GETPTS | grep -v GETSTARK | grep -v mse | grep -v WARNING | grep -v ">" | grep -v type | grep -v efit.input' -F 'grep -v table_di | grep -v /green | grep -v -e "^$" | grep -v EFIT |  grep -v Git | grep -v Simulation | grep -v compiled | grep -v flags | grep -v GETPTS | grep -v GETSTARK | grep -v mse | grep -v WARNING | grep -v ">" | grep -v type | grep -v efit.input' ${OUTPUT_STORE_DIR}/run_efit_kfile_mpi.out run_efit.out
+    exit $?
+  else
+    @CMAKE_SOURCE_DIR@/bin/petscdiff -j -f 'grep -v table_di | grep -v /green | grep -v EFIT | grep -v -e "^$" | grep -v Git | grep -v Simulation | grep -v compiled | grep -v flags | grep -v GETPTS | grep -v GETSTARK | grep -v mse | grep -v WARNING | grep -v ">" | grep -v type | grep -v efit.input' -F 'grep -v table_di | grep -v /green | grep -v EFIT | grep -v -e "^$" | grep -v Git | grep -v Simulation | grep -v compiled | grep -v flags | grep -v GETPTS | grep -v GETSTARK | grep -v mse | grep -v WARNING | grep -v ">" | grep -v type | grep -v efit.input' ${OUTPUT_STORE_DIR}/run_efit_kfile.out run_efit.out
+    exit $?
+  fi
+else
+
+  # check to see if files exist
+  if [ @HAVE_NETCDF@ = True ]; then
+    outputs=( k a g m )
+  else
+    outputs=( k a g )
+  fi
+  for prefix in ${outputs[*]}; do
+    for label in @EFIT_LABEL@; do
+      if ! test -e ${prefix}${label}; then
+        echo "File does not exist: ${prefix}${label}"
+        exit 1
+      fi
+    done
+  done
+
+  if [ @ENABLE_PARALLEL@ = ON ]; then
+    for (( i = 0; i < @EFIT_COUNT@; i++ )); do
+      if [ $i -lt 10 ]; then
+        label=0000$i
+      elif [ $i -lt 100 ]; then
+        label=000$i
+      elif [ $i -lt 1000 ]; then
+        label=00$i
+      elif [ $i -lt 10000 ]; then
+        label=0$i
+      else
+        label=$i
+      fi	      
+      if ! test -e esave${label}.dat; then
+        echo "File does not exist: esave${label}.dat"
+        exit 1
+      fi
+    done
+  else
+    if ! test -e esave.dat; then
+      echo "File does not exist: esave.dat"
+      exit 1
+    fi
+  fi
+
+  # Check the output of the run itself.  use petscdiff because it's an easily
+  # portable way of avoiding testing the numbers -- it's testing the text
+  if [ @ENABLE_PARALLEL@ = ON ]; then
+    @CMAKE_SOURCE_DIR@/bin/petscdiff -j -f 'grep -v table_di | grep -v netcdf | grep -v /green | grep -v r= | grep -v msec | grep -v consistent | grep -v Chisq | grep -v Ip-Exp | grep -v -e "^$" | grep -v EFIT | grep -v type | grep -v slices? | grep -v "#$" | grep -v Git | grep -v Simulation | grep -v compiled | grep -v flags | grep -v GETPTS | grep -v GETSTARK | grep -v mse | grep -v WARNING | grep -v ">" | grep -v SHAPE | grep -v efit.input | grep -v fpolvs | grep -v "^    0.000"' -F 'grep -v table_di | grep -v netcdf | grep -v /green | grep -v r= | grep -v msec | grep -v consistent | grep -v Chisq | grep -v Ip-Exp | grep -v -e "^$" | grep -v EFIT | grep -v type | grep -v slices? | grep -v "#$" | grep -v Git | grep -v Simulation | grep -v compiled | grep -v flags | grep -v GETPTS | grep -v GETSTARK | grep -v mse | grep -v WARNING | grep -v ">" | grep -v SHAPE | grep -v efit.input | grep -v fpolvs | grep -v "^    0.000"' ${OUTPUT_STORE_DIR}/run_efit_mpi.out run_efit.out
+    exit $?
+  else
+    @CMAKE_SOURCE_DIR@/bin/petscdiff -j -f 'grep -v table_di | grep -v netcdf | grep -v /green | grep -v EFIT | grep -v symmetrize | grep -v type | grep -v slices? | grep -v "#$" | grep -v -e "^$" | grep -v Git | grep -v Simulation | grep -v compiled | grep -v flags | grep -v GETPTS | grep -v GETSTARK | grep -v mse | grep -v WARNING | grep -v ">" | grep -v SHAPE | grep -v Done | grep -v efit.input | grep -v fpolvs | grep -v "^    0.000"' -F 'grep -v table_di | grep -v netcdf | grep -v /green | grep -v EFIT | grep -v symmetrize | grep -v type | grep -v slices? | grep -v "#$" | grep -v -e "^$" | grep -v Git | grep -v Simulation | grep -v compiled | grep -v flags | grep -v GETPTS | grep -v GETSTARK | grep -v mse | grep -v WARNING | grep -v ">" | grep -v SHAPE | grep -v Done | grep -v efit.input | grep -v fpolvs | grep -v "^    0.000"' ${OUTPUT_STORE_DIR}/run_efit.out run_efit.out
+    exit $?
+  fi
+fi

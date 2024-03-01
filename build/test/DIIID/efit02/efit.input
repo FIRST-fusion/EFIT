@@ -1,0 +1,7 @@
+ &SETUP
+ link_efit="/home/linshih/workspace/efit-main/build/test/DIIID/"
+ link_store=""
+ maxinpfile=10
+ ntims=1000
+ kxiter=30
+ /
